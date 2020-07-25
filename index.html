@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+    <head>
+            <title>Registration</title>
+    </head>
+    <style>
+         * {
+            box-sizing: border-box;
+        }
+        body {
+            background-image: url("student.jpg");
+            font-family:sans-serif;
+            margin: auto;
+            width: 1100px;
+        }
+        .register {
+        display: flex;
+        flex-direction: column;
+        background-color: white;
+        width: 32%;
+        margin: auto;
+        border-radius: 8px;
+        align-items: center;
+        margin-top: 134px;
+        box-shadow: 0 19px 19px 0 rgba(0,0,0,0.7), 0 6px 20px 0 rgba(0,0,0,0.19);
+        padding-bottom: 28px;
+}
+        .row {
+        outline: none;
+        padding: 5px;
+        width: 69%;
+        }
+        .select {
+        font-size: medium;
+        margin-right: 51px;
+
+        }
+        .ma {
+        position: relative;
+        right: 102px;
+
+        }
+       label {
+        position: relative;
+        right: 93px;
+       }
+       #male {
+        position: relative;
+        top: 15px;
+        right: 49px;
+       }
+       #female {
+        position: relative;
+        top: 15px;
+        right: 49px;
+       }
+       .registerbtn {
+        border-radius: 6px;
+        width: 45%;
+        padding: 9px;
+        font-size: medium;
+        border: none;
+        background-color: darkturquoise;
+        outline: none;
+       }
+       button:hover {
+           background-color:forestgreen;
+       }
+       .eror {
+           color: red;
+       }
+     
+    </style>
+    <body>
+        <form name="myform" action="" onsubmit="return onSubmit()" method="GET">
+            <div class="register">
+                   <h1> REGISTRATION</h1>
+                   <input type="text" class="row" name="FName" placeholder="First Name" > <br>
+                   <input type="text" class="row" name="LName" placeholder="last Name" > <br>
+                   <input type="text" class="row" name="email" placeholder="Email" ><br>
+                   <input type="number" class="row" name="number" placeholder="Phone Number" ><br>
+                   <p class="select">Please select your gender:</p>
+                   <input type="radio" id="male" name="gender" value="male">
+                   <label for="male" class="ma">Male</label><br>
+                   <input type="radio" id="female" name="gender" value="female">
+                   <label for="female">Female</label><br>
+                   <input type="text" class="row" name="adress" placeholder="Adress" > <br>
+                   <button type="submit" class="registerbtn" > Register </button>
+             </div>      
+        </form>
+        <script>
+            function onSubmit() {
+                if(!validateForm()){
+                    return false
+                }
+                submitData();
+                return false
+
+            }
+
+            function validateForm() {
+              document.querySelectorAll('.eror').forEach(el => el.remove());
+
+              var firstname = document.forms["myform"]["FName"].value;
+              var lastname = document.forms["myform"]["LName"].value;
+              var Email = document.forms["myform"]["email"].value;
+              var valid = true
+
+              if (firstname == "") {
+                document.querySelector('input[name="FName"]').insertAdjacentHTML('afterend' , '<div class="eror">This is required</div>');
+                valid = false
+              }
+            
+
+              if(lastname == "") {
+                document.querySelector('input[name="LName"]').insertAdjacentHTML('afterend' , '<div class="eror">This is required</div>');
+                valid = false
+              }
+
+              if(Email == ""){
+                document.querySelector('input[name="email"]').insertAdjacentHTML('afterend' , '<div class="eror">This is required</div>');
+                valid = false
+              } else if (!validateEmail(Email)) {
+                document.querySelector('input[name="email"]').insertAdjacentHTML('afterend' , '<div class="eror"> Invalid Email Address</div>');
+                valid = false
+              }
+
+             return valid
+            }
+
+            function validateEmail(email) {
+                const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+                return re.test(String(email).toLowerCase());
+            }
+
+            function submitData(){
+                var formData = new FormData(); 
+                var elements = document.querySelectorAll('input').forEach(el => {
+                    el.value
+                    formData.append(el.name, el.value);
+                    //console.log(el.value);
+                })
+                var xmlHttp = new XMLHttpRequest();
+                xmlHttp.onreadystatechange = function()  
+                {
+                    if(xmlHttp.readyState == 4 && xmlHttp.status == 200)
+                    {
+
+                    alert(xmlHttp.responseText);
+
+                    }
+                }    
+                xmlHttp.open("post", "contact.php"); 
+                xmlHttp.send(formData); 
+            }
+
+        </script>
+
+
+   </body>
+
+</html>
